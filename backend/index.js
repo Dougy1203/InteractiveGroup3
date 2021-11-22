@@ -35,17 +35,43 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.get("/", routes.index);
 
 app.get("/login", (req, res) => {
-    req.session.user = {
-        isAuthenticated: true,
-        username: "Test User"
-    }
-    res.redirect('/test')
+    res.render("login");
     return;
 });
 
+//ALL OF THIS SHOULD BE IN ROUTES I THINK
+app.post('/login', urlendcodedParser, (req, res) => {
+    console.log(req.body.username);
+
+    //CHECK IF ITS CORRECT LOGIN
+    if (req.body.username == "user" && req.body.password == "pass") {
+        //SESSION OBJECT
+        //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
+        req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+        res.redirect("/loggedInpage");
+        return;
+    }
+    res.redirect("/rejected");
+});
+
+app.get("/private", checkAuth, (req, res) => {
+    res.send("Welcome to the private page");
+})
+
+
 app.get("/",routes.index)
 app.get("/create", routes.create)
+<<<<<<< Updated upstream
 app.post("/create", urlendcodedParser, routes.createUser);
+=======
+
+
+
+app.post('/create', urlendcodedParser, routes.createUser);
+>>>>>>> Stashed changes
 
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
