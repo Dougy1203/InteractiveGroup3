@@ -58,10 +58,13 @@ exports.editPerson = async (req, res) => {
     const updateResult = await collection.updateOne(
         {_id: ObjectId(req.params.id)},
         { $set: {
-            name: req.body.name,
+            userName: req.body.userName,
+            password: req.body.password,
+            email: req.body.email,
             age: req.body.age,
-            species: req.body.species,
-            image: req.body.image
+            securityQuestion1: req.body.securityQuestion1,
+            securityQuestion2: req.body.securityQuestion2,
+            securityQuestion3: req.body.securityQuestion3
         }}
     )
     client.close();
