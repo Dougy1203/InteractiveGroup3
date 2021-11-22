@@ -1,4 +1,5 @@
 const {MongoClient, ObjectId} = require('mongodb');
+const bcrypt = require('bcryptjs');
 
 // const url = 'mongodb://localhost:27017'; //LocalHost
 const url = 'mongodb+srv://bob:zombie@cluster0.o9fdb.mongodb.net/Cluster0?retryWrites=true&w=majority'; //MongoAtlas
@@ -28,10 +29,16 @@ exports.create = (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
+    
     await client.connect();
+    let pass = req.body.password;
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(pass,salt);
+    console.log(salt);
+    console.log(hash);
     let user = {
         userName: req.body.userName,
-        password: req.body.password,
+        password: hash,
         email: req.body.email,
         age: req.body.age,
         securityQuestion1: req.body.securityQuestion1,
@@ -87,6 +94,3 @@ exports.details = async (req, res) => {
         user: filteredDocs
     })
 };
-exports.index = (req, res) => {
-    res.send("Alive");
-}
