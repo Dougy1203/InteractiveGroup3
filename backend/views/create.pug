@@ -2,4 +2,31 @@ extends layout
 
 block content 
     form(id='form' method='post' action=('/create'))
-        label()
+        label(for='username') Username: 
+        input(type='text' name='username')
+        br
+        label(for='password') Password: 
+        input(type='password' name='password')
+        br
+        label(for='email') Email: 
+        input(type='email' name='email')
+        br
+        label(for='age') Age: 
+        input(type='number' id='age' name='age' min='0' max='100')
+        br
+        label(for='question1') Do you prefer creamy or crunchy peanut butter?
+        input(type="radio" id="question1" name="crunchy peanut butter" value="crunchy peanut butter")
+        input(type='radio' id='question1' name='creamy peanut butter' value='creamy peanut butter')
+        br
+        label(for='qeustion2') Do you prefer apple or android?
+        input(type='radio' id='question2' name='apple' value='apple')
+        input(type='radio' id='question2' name='android' value='android')
+        br
+        label(for='question3') Best Movie Series? 
+        select(name='question3')
+            option(value='Star Wars')
+            option(value='Star Trek')
+            option(value='Harry Potter')
+            option(value='Lord of the Rings')
+        br
+        input(type='submit' value='Create')
