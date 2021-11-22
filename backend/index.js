@@ -64,14 +64,8 @@ app.get("/private", checkAuth, (req, res) => {
 
 app.get("/",routes.index)
 app.get("/create", routes.create)
-<<<<<<< Updated upstream
 app.post("/create", urlendcodedParser, routes.createUser);
-=======
 
-
-
-app.post('/create', urlendcodedParser, routes.createUser);
->>>>>>> Stashed changes
 
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
