@@ -1,4 +1,5 @@
 const express = require("express");
+const expressSession = require("express-session");
 const cookieParser = require("cookie-parser");
 const routes = require("./routes/routes");
 const pug = require("pug");
@@ -6,15 +7,55 @@ const path = require("path")
 const bcrypt = require('bcryptjs');
 const app = express();
 
-app.set('view engine', "pug")
-app.set('views', __dirname + '/views');
-app.use(express.static(path.join(__dirname, "/public")));
 const urlendcodedParser = express.urlencoded({
     extended: false
 });
+//Doesnt matter the value
+app.use(cookieParser("encryptionKey"))
+app.use(expressSession({
+    secret: 'imASecretTheSeedValueUsedToEncrypt',
+    saveUninitialized: true,
+    resave: true
+}));
 
-app.get("/",routes.index)
+const checkAuth = (req, res, next) => {
+    if (req.session.user && req.session.user.isAuthenticated) {
+        next();
+        return
+    }
+    res.redirect("/");
+}
 
+
+app.set('view engine', "pug")
+app.set('views', __dirname + '/views');
+app.use(express.static(path.join(__dirname, "/public")));
+
+
+app.get("/", routes.index);
+
+app.get("/login", (req, res) => {
+    req.session.user = {
+        isAuthenticated: true,
+        username: "Test User"
+    }
+    res.redirect('/test')
+    return;
+});
+
+app.get("/private", checkAuth, (req, res) => {
+    res.send("You are Logged in");
+})
+
+app.get("/logout", (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/");
+        }
+    });
+});
 
 
 

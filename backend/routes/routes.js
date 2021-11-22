@@ -94,6 +94,3 @@ exports.details = async (req, res) => {
         user: filteredDocs
     })
 };
-exports.index = (req, res) => {
-    res.send("Alive");
-}
