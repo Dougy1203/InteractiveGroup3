@@ -43,9 +43,9 @@ app.get("/login", (req, res) => {
     return;
 });
 
-app.get("/private", checkAuth, (req, res) => {
-    res.send("You are Logged in");
-})
+app.get("/",routes.index)
+app.get("/create", routes.create)
+app.post('/create', urlendcodedParser, routes.createUser);
 
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
