@@ -5,28 +5,43 @@ block content
         label(for='username') Username: 
         input(type='text' name='username')
         br
+        br
         label(for='password') Password: 
         input(type='password' name='password')
+        br
         br
         label(for='email') Email: 
         input(type='email' name='email')
         br
+        br
         label(for='age') Age: 
         input(type='number' id='age' name='age' min='0' max='100')
         br
+        br
         label(for='question1') Do you prefer creamy or crunchy peanut butter?
+        br
         input(type="radio" id="question1" name="crunchy peanut butter" value="crunchy peanut butter")
+        label(for='question1') Crunchy
+        br
         input(type='radio' id='question1' name='creamy peanut butter' value='creamy peanut butter')
+        label(for='question1') Creamy
+        br
         br
         label(for='qeustion2') Do you prefer apple or android?
+        br
         input(type='radio' id='question2' name='apple' value='apple')
+        label(for='question2') Apple
+        br
         input(type='radio' id='question2' name='android' value='android')
+        label(for='question2') Android
+        br
         br
         label(for='question3') Best Movie Series? 
         select(name='question3')
-            option(value='Star Wars')
-            option(value='Star Trek')
-            option(value='Harry Potter')
-            option(value='Lord of the Rings')
+            option(value='Star Wars') Star Wars
+            option(value='Star Trek') Star Trek
+            option(value='Harry Potter') Harry Potter
+            option(value='Lord of the Rings') Lord of the Rings
+        br
         br
         input(type='submit' value='Create')

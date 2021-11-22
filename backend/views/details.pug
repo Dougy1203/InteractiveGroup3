@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+    p Username: #{person.username} 
+    p Age: #{person.age} 
+    p Quetion 1: #{person.securityQuestion1}
+    p Question 2: #{person.securityQuestion2} 
+    p Question 3: #{person.securityQuestion3} 
+    br
+    p 
+        a(href='/') Go Back 
