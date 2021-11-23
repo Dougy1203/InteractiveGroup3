@@ -7,10 +7,23 @@ const path = require("path")
 const bcrypt = require('bcryptjs');
 const app = express();
 
+const getTodaysDate = () =>{
+    let currentDate = new Date();
+    let cDay = currentDate.getDate();
+    let cMonth = currentDate.getMonth() + 1;
+    let cYear = currentDate.getFullYear();
+    let date = cMonth+"/"+cMonth+"/"+cYear;
+    console.log(date);
+    return date;
+}
+
+
 const urlendcodedParser = express.urlencoded({
     extended: false
 });
 //Doesnt matter the value
+//COOKIE INFORMATION
+let currentDate = getTodaysDate();
 app.use(cookieParser("encryptionKey"))
 app.use(expressSession({
     secret: 'imASecretTheSeedValueUsedToEncrypt',
@@ -46,6 +59,10 @@ app.post('/login', urlendcodedParser, (req, res) => {
 
     //CHECK IF ITS CORRECT LOGIN
     if (req.body.username == "user" && pass == true) {
+        //COOKIE OBJECT
+        res.cookie("LastVisit",currentDate, {
+            maxAge: 99999999999999999
+        });
         //SESSION OBJECT
         //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
         req.session.user = {
@@ -68,6 +85,7 @@ app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
 app.get('/edit/:id', urlendcodedParser, routes.editUser);
 app.post("/create", urlendcodedParser, routes.createUser);
+app.get('/details/:id', routes.details);
 
 
 app.get("/logout", (req, res) => {
@@ -75,7 +93,7 @@ app.get("/logout", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.redirect("/");
+            res.redirect("/login");
         }
     });
 });
