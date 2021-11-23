@@ -2,8 +2,8 @@ extends layout
 
 block content 
     form(id='form' method='post' action=('/create'))
-        label(for='username') Username: 
-        input(type='text' name='username')
+        label(for='userName') Username: 
+        input(type='text' name='userName')
         br
         br
         label(for='password') Password: 
@@ -20,20 +20,20 @@ block content
         br
         label(for='question1') Do you prefer creamy or crunchy peanut butter?
         br
-        input(type="radio" id="question1" name="crunchy peanut butter" value="crunchy peanut butter")
         label(for='question1') Crunchy
+        input(type="radio" id="question1" name="question1" value="crunchy peanut butter")
         br
-        input(type='radio' id='question1' name='creamy peanut butter' value='creamy peanut butter')
         label(for='question1') Creamy
+        input(type='radio' id='question1' name='question1' value='creamy peanut butter')
         br
         br
         label(for='qeustion2') Do you prefer apple or android?
         br
-        input(type='radio' id='question2' name='apple' value='apple')
         label(for='question2') Apple
+        input(type='radio' id='question2' name='question2' value='apple')
         br
-        input(type='radio' id='question2' name='android' value='android')
         label(for='question2') Android
+        input(type='radio' id='question2' name='question2' value='android')
         br
         br
         label(for='question3') Best Movie Series? 

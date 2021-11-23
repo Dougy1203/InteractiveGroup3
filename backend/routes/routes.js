@@ -41,9 +41,9 @@ exports.createUser = async (req, res) => {
         password: hash,
         email: req.body.email,
         age: req.body.age,
-        securityQuestion1: req.body.securityQuestion1,
-        securityQuestion2: req.body.securityQuestion2,
-        securityQuestion3: req.body.securityQuestion3
+        securityQuestion1: req.body.question1,
+        securityQuestion2: req.body.question2,
+        securityQuestion3: req.body.question3
     }
     const insertResult = await collection.insertOne(user);
     client.close();
