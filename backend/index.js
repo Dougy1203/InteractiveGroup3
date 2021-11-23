@@ -42,9 +42,10 @@ app.get("/login", (req, res) => {
 //ALL OF THIS SHOULD BE IN ROUTES I THINK
 app.post('/login', urlendcodedParser, (req, res) => {
     console.log(req.body.username);
+    let pass = bcrypt.compareSync(req.body.password,hash)
 
     //CHECK IF ITS CORRECT LOGIN
-    if (req.body.username == "user" && req.body.password == "pass") {
+    if (req.body.username == "user" && pass == true) {
         //SESSION OBJECT
         //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
         req.session.user = {
