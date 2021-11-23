@@ -2,7 +2,7 @@ extends layout
 block content 
     form(id='form' method='post' action=('/edit/' + user._id))
         label(for='username') Username: 
-        input(type='text' name='username' value=user.userName)
+        input(type='text' name='userName' value=user.userName)
         br
         br
         label(for='age') Age: 
@@ -11,19 +11,19 @@ block content
         br
         label(for='question1') Do you prefer creamy or crunchy peanut butter?(#{user.securityQuestion1})
         br
-        input(type="radio" id="question1" name="crunchy peanut butter" value="crunchy peanut butter")
+        input(type="radio" id="question1" name="question1" value="crunchy peanut butter")
         label(for='question1') Crunchy
         br
-        input(type='radio' id='question1' name='creamy peanut butter' value='creamy peanut butter')
+        input(type='radio' id='question1' name='question1' value='creamy peanut butter')
         label(for='question1') Creamy
         br
         br
         label(for='qeustion2') Do you prefer apple or android?(#{user.securityQuestion2})
         br
-        input(type='radio' id='question2' name='apple' value='apple')
+        input(type='radio' id='question2' name='question2' value='apple')
         label(for='question2') Apple
         br
-        input(type='radio' id='question2' name='android' value='android')
+        input(type='radio' id='question2' name='question2' value='android')
         label(for='question2') Android
         br
         br

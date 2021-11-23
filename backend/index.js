@@ -83,7 +83,7 @@ app.get("/private", checkAuth, (req, res) => {
 app.get("/",routes.index);
 app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
-app.get('/edit/:id', urlendcodedParser, routes.editUser);
+app.post('/edit/:id', urlendcodedParser, routes.editUser);
 app.post("/create", urlendcodedParser, routes.createUser);
 app.get('/details/:id', routes.details);
 
