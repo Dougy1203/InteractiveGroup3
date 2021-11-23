@@ -8,6 +8,7 @@ block content
             th Question 1 
             th Question 2
             th Question 3
+            th 
         each item in people 
             tr 
                 td 
@@ -16,8 +17,9 @@ block content
                 td #{item.securityQuestion1} 
                 td #{item.securityQuestion2}
                 td #{item.securityQuestion3}
-                    a(href='/edit/' + item._id) Edit 
                 td
+                    a(href='/edit/' + item._id) Edit 
+                    a __
                     a(href='/delete/' + item._id) Delete 
     p 
         a(href='/create') Add new person
