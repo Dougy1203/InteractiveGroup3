@@ -59,8 +59,10 @@ app.post('/login', urlendcodedParser, (req, res) => {
 
     //CHECK IF ITS CORRECT LOGIN
     if (req.body.username == "user" && pass == true) {
+        //COOKIE OBJECT
         res.cookie("LastVisit",currentDate, {
             maxAge: 99999999999999999
+        });
         //SESSION OBJECT
         //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
         req.session.user = {
