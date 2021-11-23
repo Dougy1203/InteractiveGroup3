@@ -68,6 +68,7 @@ app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
 app.get('/edit/:id', urlendcodedParser, routes.editPerson);
 app.post("/create", urlendcodedParser, routes.createUser);
+app.get('/details/:id', routes.details);
 
 
 app.get("/logout", (req, res) => {

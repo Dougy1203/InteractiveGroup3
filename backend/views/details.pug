@@ -1,11 +1,12 @@
 extends layout 
 
 block content 
-    p Username: #{person.username} 
-    p Age: #{person.age} 
-    p Quetion 1: #{person.securityQuestion1}
-    p Question 2: #{person.securityQuestion2} 
-    p Question 3: #{person.securityQuestion3} 
+    p Username: #{user.userName} 
+    p Age: #{user.age} 
+    p Quetion 1: #{user.securityQuestion1}
+    p Question 2: #{user.securityQuestion2} 
+    p Question 3: #{user.securityQuestion3} 
     br
     p 
-        a(href='/') Go Back 
+    a(href='/login') 
+        input(type='submit' value='Log out')
