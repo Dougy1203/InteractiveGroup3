@@ -1,16 +1,15 @@
 extends layout
-
 block content 
-    form(id='form' method='post' action=('/edit/' + person._id))
+    form(id='form' method='post' action=('/edit/' + user._id))
         label(for='username') Username: 
-        input(type='text' name='username' value=person.username)
+        input(type='text' name='username' value=user.userName)
         br
         br
         label(for='age') Age: 
-        input(type='text' name='age' value=person.age)
+        input(type='text' name='age' value=user.age)
         br
         br
-        label(for='question1') Do you prefer creamy or crunchy peanut butter?
+        label(for='question1') Do you prefer creamy or crunchy peanut butter?(#{user.securityQuestion1})
         br
         input(type="radio" id="question1" name="crunchy peanut butter" value="crunchy peanut butter")
         label(for='question1') Crunchy
@@ -19,7 +18,7 @@ block content
         label(for='question1') Creamy
         br
         br
-        label(for='qeustion2') Do you prefer apple or android?
+        label(for='qeustion2') Do you prefer apple or android?(#{user.securityQuestion2})
         br
         input(type='radio' id='question2' name='apple' value='apple')
         label(for='question2') Apple
@@ -28,8 +27,9 @@ block content
         label(for='question2') Android
         br
         br
-        label(for='question3') Best Movie Series? 
+        label(for='question3') Best Movie Series?
         select(name='question3')
+            option(selected=user.securityQuestion3) #{user.securityQuestion3}
             option(value='Star Wars') Star Wars
             option(value='Star Trek') Star Trek
             option(value='Harry Potter') Harry Potter

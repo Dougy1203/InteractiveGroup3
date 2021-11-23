@@ -56,11 +56,11 @@ exports.edit = async (req, res) => {
     client.close();
     res.render('edit', {
         title: "Edit User",
-        person: filteredDocs,
+        user: filteredDocs,
     });
 };
 
-exports.editPerson = async (req, res) => {
+exports.editUser = async (req, res) => {
     await client.connect();
     const updateResult = await collection.updateOne(
         {_id: ObjectId(req.params.id)},
