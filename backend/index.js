@@ -36,7 +36,7 @@ const checkAuth = (req, res, next) => {
         next();
         return
     }
-    res.redirect("/");
+    res.redirect("/login");
 }
 
 

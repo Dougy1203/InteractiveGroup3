@@ -87,8 +87,10 @@ exports.details = async (req, res) => {
     await client.connect();
     const filteredDocs = await collection.findOne({_id: ObjectId(req.params.id)});
     client.close();
+    console.log(await req.cookies.LastVisit);
     res.render('details', {
         title: `${filteredDocs.userName}'s Details`,
-        user: filteredDocs
+        user: filteredDocs,
+        cookie: req.cookies
     })
 };
