@@ -29,11 +29,9 @@ exports.create = (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-    
     await client.connect();
-    let pass = req.body.password;
     let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(pass,salt);
+    let hash = bcrypt.hashSync(req.body.password, salt);
     console.log(salt);
     console.log(hash);
     let user = {

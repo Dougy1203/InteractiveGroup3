@@ -54,25 +54,26 @@ app.get("/login", (req, res) => {
 
 //ALL OF THIS SHOULD BE IN ROUTES I THINK
 app.post('/login', urlendcodedParser, (req, res) => {
-    console.log(req.body.username);
-    let pass = bcrypt.compareSync(req.body.password,hash)
+    
+    // console.log(req.body.username);
+    // pass = bcrypt.compareSync(req.body.password, user.password)
 
-    //CHECK IF ITS CORRECT LOGIN
-    if (req.body.username == "user" && pass == true) {
-        //COOKIE OBJECT
-        res.cookie("LastVisit",currentDate, {
-            maxAge: 99999999999999999
-        });
-        //SESSION OBJECT
-        //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
-        req.session.user = {
-            isAuthenticated: true,
-            username: req.body.username
-        }
-        res.redirect("/loggedInpage");
-        return;
-    }
-    res.redirect("/rejected");
+    // //CHECK IF ITS CORRECT LOGIN
+    // if (req.body.username == "user" && pass == true) {
+    //     //COOKIE OBJECT
+    //     res.cookie("LastVisit",currentDate, {
+    //         maxAge: 99999999999999999
+    //     });
+    //     //SESSION OBJECT
+    //     //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
+    //     req.session.user = {
+    //         isAuthenticated: true,
+    //         username: req.body.username
+    //     }
+    //     res.redirect("/loggedInpage");
+    //     return;
+    // }
+    // res.redirect("/rejected");
 });
 
 app.get("/private", checkAuth, (req, res) => {
