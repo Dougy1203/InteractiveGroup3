@@ -86,6 +86,7 @@ app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
 app.post('/edit/:id', urlendcodedParser, routes.editUser);
 app.post("/create", urlendcodedParser, routes.createUser);
+app.get('/delete/:id', routes.delete);
 app.get('/details/:id', routes.details);
 
 
