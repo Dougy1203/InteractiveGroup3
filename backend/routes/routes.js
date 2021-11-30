@@ -85,7 +85,7 @@ exports.delete = async (req, res) => {
 
 exports.details = async (req, res) => {
     await client.connect();
-    const filteredDocs = await collection.findOne({_id: ObjectId(req.params.id)});
+    const filteredDocs = await collection.findOne({userName: req.params.id});
     client.close();
     console.log(await req.cookies.LastVisit);
     res.render('details', {
@@ -94,3 +94,31 @@ exports.details = async (req, res) => {
         cookie: req.cookies
     })
 };
+
+
+exports.logincheck = async (req,res)=> {
+    let username = await req.body.userName;
+    let password = await req.body.password;
+    if(username == null || password==null){
+        res.redirect("/login")
+    }
+    console.log(`${username} and ${password}`)
+
+    let correctPass = false;
+    await client.connect();
+    const filteredDocs = await collection.findOne({
+        userName: username
+    });
+    client.close();
+    if(filteredDocs==null){
+        res.redirect("/login")
+    }
+    console.log(`Filtered Docs: ${filteredDocs}`)
+    correctPass = bcrypt.compareSync(password,filteredDocs.password);
+    if (!correctPass) {
+        console.log("Incorrect")
+        res.redirect("/login");
+    }
+    console.log(`Correct: ${username} and ${password}`)
+    res.redirect(`details/${username}`)
+}
