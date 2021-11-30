@@ -8,6 +8,8 @@ block content
     p Question 3: #{user.securityQuestion3} 
     p Last Time Visited: #{cookie.LastVisit}
     br
+    a(href='/edit/' + user._id) Edit 
+    br
     p 
     a(href='/logout') 
         input(type='submit' value='Log out')
