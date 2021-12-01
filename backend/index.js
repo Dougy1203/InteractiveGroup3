@@ -17,7 +17,6 @@ const getTodaysDate = () =>{
     return date;
 }
 
-
 const urlendcodedParser = express.urlencoded({
     extended: false
 });
@@ -39,11 +38,9 @@ const checkAuth = (req, res, next) => {
     res.redirect("/login");
 }
 
-
 app.set('view engine', "pug")
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, "/public")));
-
 
 app.get("/", routes.index);
 
@@ -59,7 +56,6 @@ app.get("/private", checkAuth, (req, res) => {
     res.send("Welcome to the private page");
 })
 
-
 app.get("/",routes.index);
 app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
@@ -67,7 +63,6 @@ app.post('/edit/:id', urlendcodedParser, routes.editUser);
 app.post("/create", urlendcodedParser, routes.createUser);
 app.get('/delete/:id', routes.delete);
 app.get('/details/:id', routes.details);
-
 
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
@@ -78,7 +73,5 @@ app.get("/logout", (req, res) => {
         }
     });
 });
-
-
 
 app.listen(3000)
