@@ -63,6 +63,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/",routes.index);
+app.get("/api",routes.api);
 app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
 app.post('/edit/:id', urlendcodedParser, routes.editUser);

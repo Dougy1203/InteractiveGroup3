@@ -9,6 +9,15 @@ const dbName = 'myData';
 const db =  client.db(dbName);
 const collection = db.collection('Users');
 
+let crunchyPBCounter = 0;
+let creamyPBCounter = 0;
+let appleCounter = 0;
+let androidCounter = 0;
+let StarWarsCounter = 0;
+let StarTrekCounter = 0;
+let LordOfTheRingsCounter = 0;
+let HarryPotterCounter = 0;
+
 exports.index = async (req, res) => {
     await client.connect();
     const findResult = await collection.find({}).toArray();
@@ -121,4 +130,16 @@ exports.logincheck = async (req,res)=> {
     }
     console.log(`Correct: ${username} and ${password}`)
     res.redirect(`details/${username}`)
+}
+
+exports.api = async(req, res) => {
+    await client.connect();
+    const findQuestion1 = await collection.find({securityQuestion1: req.query.securityQuestion1}).toArray();
+    const findQuestion2 = await collection.find({securityQuestion2: req.query.securityQuestion2}).toArray();
+    const findQuestion3 = await collection.find({securityQuestion3: req.query.securityQuestion3}).toArray();
+    client.close();
+    if(req.query.amount != undefined){
+        console.log(json(findQuestion1));
+        res.json(findQuestion1);
+    }
 }
