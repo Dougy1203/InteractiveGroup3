@@ -1,3 +1,5 @@
+const { resourceLimits } = require("worker_threads");
+
 const url = 'http://localhost:3000/api';
 
 fetch(url)
