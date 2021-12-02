@@ -17,6 +17,15 @@ let StarWarsCounter = 0;
 let StarTrekCounter = 0;
 let LordOfTheRingsCounter = 0;
 let HarryPotterCounter = 0;
+const getTodaysDate = () =>{
+    let currentDate = new Date();
+    let cDay = currentDate.getDate();
+    let cMonth = currentDate.getMonth() + 1;
+    let cYear = currentDate.getFullYear();
+    let date = cMonth+"/"+cMonth+"/"+cYear;
+    console.log(date);
+    return date;
+}
 
 exports.index = async (req, res) => {
     await client.connect();
@@ -48,6 +57,7 @@ exports.createUser = async (req, res) => {
         password: hash,
         email: req.body.email,
         age: req.body.age,
+        admin: false,
         securityQuestion1: req.body.question1,
         securityQuestion2: req.body.question2,
         securityQuestion3: req.body.question3
@@ -94,7 +104,12 @@ exports.delete = async (req, res) => {
 
 exports.details = async (req, res) => {
     await client.connect();
-    const filteredDocs = await collection.findOne({userName: req.params.id});
+    let filteredDocs;
+    console.log(req.params.id)
+    filteredDocs = await collection.findOne({userName: req.params.id});
+    if(filteredDocs == null){
+        filteredDocs = await collection.findOne({_id: ObjectId(req.params.id)});
+    }
     client.close();
     console.log(await req.cookies.LastVisit);
     res.render('details', {
@@ -128,6 +143,17 @@ exports.logincheck = async (req,res)=> {
         console.log("Incorrect")
         res.redirect("/login");
     }
+    res.cookie("LastVisit",getTodaysDate(), {
+        maxAge: 99999999999999999,
+        Admin: filteredDocs.admin
+    });
+    //SESSION OBJECT
+    //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
+    req.session.user = {
+        isAuthenticated: true,
+        username: req.body.username
+    }
+    
     console.log(`Correct: ${username} and ${password}`)
     res.redirect(`details/${username}`)
 }
