@@ -27,6 +27,12 @@ const getTodaysDate = () =>{
     return date;
 }
 
+const saltHashPassword = (password)=>{
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+    return hash
+}
+
 exports.index = async (req, res) => {
     await client.connect();
     const findResult = await collection.find({}).toArray();
@@ -48,8 +54,7 @@ exports.create = (req, res) => {
 
 exports.createUser = async (req, res) => {
     await client.connect();
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(req.body.password, salt);
+    let hash = saltHashPassword(req.body.password);
     console.log(salt);
     console.log(hash);
     let user = {
@@ -79,20 +84,38 @@ exports.edit = async (req, res) => {
 
 exports.editUser = async (req, res) => {
     await client.connect();
-    const updateResult = await collection.updateOne(
-        {_id: ObjectId(req.params.id)},
-        { $set: {
-            userName: req.body.userName,
-            password: req.body.password,
-            email: req.body.email,
-            age: req.body.age,
-            securityQuestion1: req.body.question1,
-            securityQuestion2: req.body.question2,
-            securityQuestion3: req.body.question3
-        }}
-    )
-    client.close();
-    res.redirect('/');
+    if(req.body.password != null){
+        let hash = saltHashPassword(req.body.password);
+        const updateResult = await collection.updateOne(
+            {_id: ObjectId(req.params.id)},
+            { $set: {
+                userName: req.body.userName,
+                password: hash,
+                email: req.body.email,
+                age: req.body.age,
+                securityQuestion1: req.body.question1,
+                securityQuestion2: req.body.question2,
+                securityQuestion3: req.body.question3
+            }}
+        )
+        client.close();
+        res.redirect('/');
+    }
+    else{
+        const updateResult = await collection.updateOne(
+            {_id: ObjectId(req.params.id)},
+            { $set: {
+                userName: req.body.userName,
+                email: req.body.email,
+                age: req.body.age,
+                securityQuestion1: req.body.question1,
+                securityQuestion2: req.body.question2,
+                securityQuestion3: req.body.question3
+            }}
+        )
+        client.close();
+        res.redirect('/');
+    }
 };
 
 exports.delete = async (req, res) => {
