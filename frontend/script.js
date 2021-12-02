@@ -44,8 +44,12 @@ let fetchData = async (url) => {
 
   for(let i=0;i<data.length;i++){
     result.innerHTML = result.innerHTML + `<div>
-    Question 1: ${data[i].securityQuestion1} </br>
-    User Answer: ${data[i].secutityQuestion2} </br>
+    Question 1: Crunchy or Creamy Peanut Butter </br>
+    User Answer: ${data[i].securityQuestion1} </br>
+    Question 2: Apple or Android? </br>
+    User Answer: ${data[i].securityQuestion2} </br>
+    Question 3: Best Movie Franchise? </br>
+    User Answer: ${data[i].securityQuestion3} </br>
     </div></br></br>`;
   }
 };
