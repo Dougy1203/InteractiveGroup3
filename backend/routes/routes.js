@@ -171,3 +171,26 @@ exports.api = async(req, res) => {
         res.json(findQuestion1);
     }
 }
+
+exports.makeAdmin = async(req,res)=>{
+    await client.connect();
+    const updateResult = await collection.updateOne(
+        {_id: ObjectId(req.params.id)},
+        { $set: {
+            "admin": true
+        }}
+    )
+    client.close();
+    res.redirect('/');
+}
+exports.removeAdmin = async(req,res)=>{
+    await client.connect();
+    const updateResult = await collection.updateOne(
+        {_id: ObjectId(req.params.id)},
+        { $set: {
+            "admin": false
+        }}
+    )
+    client.close();
+    res.redirect('/');
+}

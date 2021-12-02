@@ -80,7 +80,8 @@ app.post('/edit/:id', urlendcodedParser, routes.editUser);
 app.post("/create", urlendcodedParser, routes.createUser);
 app.get('/delete/:id', routes.delete);
 app.get('/details/:id', routes.details);
-
+app.get("/makeAdmin/:id",routes.makeAdmin);
+app.get("/removeAdmin/:id",routes.removeAdmin);
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (err) {
