@@ -162,17 +162,16 @@ exports.logincheck = async (req,res)=> {
 
 exports.api = async(req, res) => {
     await client.connect();
-    const findQuestion1 = await collection.find({securityQuestion1: req.query.securityQuestion1}).toArray();
-    // const findQuestion2 = await collection.find({securityQuestion2: req.query.securityQuestion2}).toArray();
-    // const findQuestion3 = await collection.find({securityQuestion3: req.query.securityQuestion3}).toArray();
+    const findResult = await collection.find({}).toArray();
     client.close();
+    console.log(findResult);
     if(req.query.amount != undefined){
-        console.log(json(findQuestion1));
-        res.json(findQuestion1);
+        console.log(json(findResult));
+        res.json(findResult);
     }
     if(req.query.amount == undefined){
-        res.json(findQuestion1);
+        res.json(findResult);
     } else{
-        res.json(findQuestion1[req.query._id]);
+        res.json(findResult[req.query._id]);
     }
 }

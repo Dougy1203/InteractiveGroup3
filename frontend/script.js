@@ -1,6 +1,4 @@
-//const { resourceLimits } = require("worker_threads");
 const result = document.getElementById("results");
-const { resourceLimits } = require("worker_threads");
 
 const canvas = document.getElementById('graph');
 const ctx = canvas.getContext('2d');
@@ -35,7 +33,7 @@ function draw () {
 draw();
 
 function search(){
-  let query
+  let queryCategory = document.querySelector
 }
 
 let fetchData = async (url) => {
@@ -50,7 +48,6 @@ let fetchData = async (url) => {
     User Answer: ${data[i].secutityQuestion2} </br>
     </div></br></br>`;
   }
-  
 };
 
 fetchData('http://localhost:3000/api');
