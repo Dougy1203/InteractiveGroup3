@@ -5,6 +5,7 @@ const routes = require("./routes/routes");
 const pug = require("pug");
 const path = require("path")
 const bcrypt = require('bcryptjs');
+
 const app = express();
 
 const getTodaysDate = () =>{
@@ -17,7 +18,7 @@ const getTodaysDate = () =>{
     return date;
 }
 
-const urlendcodedParser = express.urlencoded({
+const urlencodedParser = express.urlencoded({
     extended: false
 });
 //Doesnt matter the value
@@ -50,7 +51,7 @@ app.get("/login", (req, res) => {
 });
 
 //ALL OF THIS SHOULD BE IN ROUTES I THINK
-app.post('/login', urlendcodedParser, routes.logincheck);
+app.post('/login', urlencodedParser, routes.logincheck);
 
 app.get("/private", checkAuth, (req, res) => {
     res.send("Welcome to the private page");
@@ -65,9 +66,9 @@ app.use((req, res, next) => {
 app.get("/",routes.index);
 app.get("/api",routes.api);
 app.get("/create", routes.create);
+app.post("/create", urlencodedParser, routes.createUser);
 app.get('/edit/:id', routes.edit);
-app.post('/edit/:id', urlendcodedParser, routes.editUser);
-app.post("/create", urlendcodedParser, routes.createUser);
+app.post('/edit/:id', urlencodedParser, routes.editUser);
 app.get('/delete/:id', routes.delete);
 app.get('/details/:id', routes.details);
 
