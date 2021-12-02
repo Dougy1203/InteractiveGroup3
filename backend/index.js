@@ -24,7 +24,7 @@ const urlencodedParser = express.urlencoded({
 //Doesnt matter the value
 //COOKIE INFORMATION
 let currentDate = getTodaysDate();
-app.use(cookieParser("encryptionKey"))
+app.use(cookieParser("imASecretTheSeedValueUsedToEncrypt"))
 app.use(expressSession({
     secret: 'imASecretTheSeedValueUsedToEncrypt',
     saveUninitialized: true,
@@ -39,11 +39,22 @@ const checkAuth = (req, res, next) => {
     res.redirect("/login");
 }
 
+const isAdmin = (req,res,next)=>{
+    let isAdmin = req.cookies.admin;
+    console.log(`Is user an admin: ${isAdmin}`);
+    if(isAdmin == "true"){
+        next();
+        return
+    }
+    res.redirect("/login");
+}
+
+
 app.set('view engine', "pug")
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.get("/", routes.index);
+app.get("/", isAdmin ,routes.index);
 
 app.get("/login", (req, res) => {
     res.render("login");
@@ -63,7 +74,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/",routes.index);
 app.get("/api",routes.api);
 app.get("/create", routes.create);
 app.post("/create", urlencodedParser, routes.createUser);
