@@ -1,4 +1,6 @@
 //const { resourceLimits } = require("worker_threads");
+const result = document.getElementById("results");
+const { resourceLimits } = require("worker_threads");
 
 const canvas = document.getElementById('graph');
 const ctx = canvas.getContext('2d');
@@ -32,19 +34,24 @@ function draw () {
 
 draw();
 
-// const url = 'http://localhost:3000/api';
+function search(){
+  let query
+}
 
-// fetch(url)
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data);
-//     });
+let fetchData = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log(data);
+  result.innerHTML = "";
 
-// let fetchData = async (url) => {
-//     const response = await fetch(url);
-//     const data = await response.json();
-//     console.log(data);
-// };
+  for(let i=0;i<data.length;i++){
+    result.innerHTML = result.innerHTML + `<div>
+    Question 1: ${data[i].securityQuestion1} </br>
+    User Answer: ${data[i].secutityQuestion2} </br>
+    </div></br></br>`;
+  }
+  
+};
 
-// fetchData('http://localhost:3000/api');
+fetchData('http://localhost:3000/api');
 
