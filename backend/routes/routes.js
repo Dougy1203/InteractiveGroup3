@@ -121,32 +121,34 @@ exports.details = async (req, res) => {
 
 
 exports.logincheck = async (req,res)=> {
+    //Check if its empty
     let username = await req.body.userName;
     let password = await req.body.password;
     if(username == null || password==null){
         res.redirect("/login")
     }
     console.log(`${username} and ${password}`)
-
     let correctPass = false;
+
+    //Now finding user in the database
     await client.connect();
     const filteredDocs = await collection.findOne({
         userName: username
     });
     client.close();
-    if(filteredDocs==null){
+    if(filteredDocs==null){ //No user
         res.redirect("/login")
     }
-    console.log(`Filtered Docs: ${filteredDocs}`)
-    correctPass = bcrypt.compareSync(password,filteredDocs.password);
-    if (!correctPass) {
+    console.log(`Filtered Docs: ${filteredDocs.admin}`)
+    //Found a user
+    correctPass = bcrypt.compareSync(password,filteredDocs.password); //check password
+    if (!correctPass) { //Password isnt right
         console.log("Incorrect")
         res.redirect("/login");
     }
-    res.cookie("LastVisit",getTodaysDate(), {
-        maxAge: 99999999999999999,
-        Admin: filteredDocs.admin
-    });
+    res.clearCookie("admin");
+    res.cookie("LastVisit",getTodaysDate(), { maxAge: 99999999999999999});
+    res.cookie("admin", filteredDocs.admin, { maxAge: 999999999});
     //SESSION OBJECT
     //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
     req.session.user = {

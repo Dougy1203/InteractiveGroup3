@@ -39,10 +39,11 @@ const checkAuth = (req, res, next) => {
 }
 
 const isAdmin = (req,res,next)=>{
-    let isAdmin = req.cookies.LastVisit.Admin;
-    console.log(isAdmin);
-    if(isAdmin){
+    let isAdmin = req.cookies.admin;
+    console.log(`Is user an admin: ${isAdmin}`);
+    if(isAdmin == "true"){
         next();
+        return
     }
     res.redirect("/login");
 }
@@ -72,7 +73,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/",routes.index);
 app.get("/api",routes.api);
 app.get("/create", routes.create);
 app.get('/edit/:id', routes.edit);
