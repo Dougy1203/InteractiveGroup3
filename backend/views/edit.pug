@@ -9,6 +9,14 @@ block content
         input(type='text' name='age' value=user.age)
         br
         br
+        label(for='password') Password: 
+        input(type='text' name='password')
+        br
+        br
+        label(for='email') Email: 
+        input(type='text' name='email' value= user.email)
+        br
+        br
         label(for='question1') Do you prefer creamy or crunchy peanut butter?(#{user.securityQuestion1})
         br
         input(type="radio" id="question1" name="question1" value="crunchy peanut butter")
