@@ -22,7 +22,7 @@ const getTodaysDate = () =>{
     let cDay = currentDate.getDate();
     let cMonth = currentDate.getMonth() + 1;
     let cYear = currentDate.getFullYear();
-    let date = cMonth+"/"+cMonth+"/"+cYear;
+    let date = cMonth+"/"+cDay+"/"+cYear;
     console.log(date);
     return date;
 }
@@ -183,19 +183,69 @@ exports.logincheck = async (req,res)=> {
 }
 
 exports.api = async(req, res) => {
+    crunchyPBCounter = 0;
+    creamyPBCounter = 0;
+    appleCounter = 0;
+    androidCounter = 0;
+    StarWarsCounter = 0;
+    StarTrekCounter = 0;
+    HarryPotterCount = 0;
+    LordOfTheRingsCo = 0;
     await client.connect();
     const findResult = await collection.find({}).toArray();
     client.close();
     console.log(findResult);
-    if(req.query.amount != undefined){
-        console.log(json(findResult));
-        res.json(findResult);
-    }
-    if(req.query.amount == undefined){
-        res.json(findResult);
-    } else{
-        res.json(findResult[req.query._id]);
-    }
+    let securityQ = {};
+
+    findResult.forEach(element => {
+        let temp = {
+            securityQuestion1: element.securityQuestion1,
+            securityQuestion2: element.securityQuestion2,
+            securityQuestion3: element.securityQuestion3
+        }
+        if(temp.securityQuestion1 == 'crunchy peanut butter'){
+            crunchyPBCounter += 1;
+        }else if(temp.securityQuestion1 == 'creamy peanut butter'){
+            creamyPBCounter += 1;
+        }
+
+        if(temp.securityQuestion2 == 'apple'){
+            appleCounter += 1;
+        }else if(temp.securityQuestion2 == 'android'){
+            androidCounter += 1;
+        }
+
+        if(temp.securityQuestion3 == 'Star Wars'){
+            StarWarsCounter += 1;
+        }else if(temp.securityQuestion3 == 'Star Trek'){
+            StarTrekCounter += 1;
+        }else if(temp.securityQuestion3 == 'Harry Potter'){
+            HarryPotterCounter += 1;
+        }else if(temp.securityQuestion3 == 'Lord of the Rings'){
+            LordOfTheRingsCounter += 1;
+        }
+        securityQ = {
+            CrunchyPB: crunchyPBCounter,
+            CreamyPB: creamyPBCounter,
+            Apple: appleCounter,
+            Android: androidCounter,
+            StarWars: StarWarsCounter,
+            StarTrek: StarTrekCounter,
+            HarryPotter: HarryPotterCounter,
+            LordOfTheRings: LordOfTheRingsCounter
+        }
+
+        // question1Data.push(temp);
+        console.log(temp);
+    })
+    res.json(securityQ);
+    // if(req.query.amount == undefined){
+    //     console.log('query amount undefined');
+    //     res.json(question1Data);
+    // } else{
+    //     console.log('this is where nothing is');
+    //     res.json(findResult[req.query._id]);
+    // }
 }
 
 exports.makeAdmin = async(req,res)=>{
