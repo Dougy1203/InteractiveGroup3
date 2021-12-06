@@ -5,6 +5,7 @@ const routes = require("./routes/routes");
 const pug = require("pug");
 const path = require("path")
 const bcrypt = require('bcryptjs');
+
 const app = express();
 
 const getTodaysDate = () =>{
@@ -17,13 +18,13 @@ const getTodaysDate = () =>{
     return date;
 }
 
-const urlendcodedParser = express.urlencoded({
+const urlencodedParser = express.urlencoded({
     extended: false
 });
 //Doesnt matter the value
 //COOKIE INFORMATION
 let currentDate = getTodaysDate();
-app.use(cookieParser("encryptionKey"))
+app.use(cookieParser("imASecretTheSeedValueUsedToEncrypt"))
 app.use(expressSession({
     secret: 'imASecretTheSeedValueUsedToEncrypt',
     saveUninitialized: true,
@@ -38,11 +39,22 @@ const checkAuth = (req, res, next) => {
     res.redirect("/login");
 }
 
+const isAdmin = (req,res,next)=>{
+    let isAdmin = req.cookies.admin;
+    console.log(`Is user an admin: ${isAdmin}`);
+    if(isAdmin == "true"){
+        next();
+        return
+    }
+    res.redirect("/login");
+}
+
+
 app.set('view engine', "pug")
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.get("/", routes.index);
+app.get("/", isAdmin ,routes.index);
 
 app.get("/login", (req, res) => {
     res.render("login");
@@ -50,7 +62,7 @@ app.get("/login", (req, res) => {
 });
 
 //ALL OF THIS SHOULD BE IN ROUTES I THINK
-app.post('/login', urlendcodedParser, routes.logincheck);
+app.post('/login', urlencodedParser, routes.logincheck);
 
 app.get("/private", checkAuth, (req, res) => {
     res.send("Welcome to the private page");
@@ -62,14 +74,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/",routes.index);
+app.get("/api",routes.api);
 app.get("/create", routes.create);
+app.post("/create", urlencodedParser, routes.createUser);
 app.get('/edit/:id', routes.edit);
-app.post('/edit/:id', urlendcodedParser, routes.editUser);
-app.post("/create", urlendcodedParser, routes.createUser);
+app.post('/edit/:id', urlencodedParser, routes.editUser);
 app.get('/delete/:id', routes.delete);
 app.get('/details/:id', routes.details);
-
+app.get("/makeAdmin/:id",routes.makeAdmin);
+app.get("/removeAdmin/:id",routes.removeAdmin);
 app.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (err) {

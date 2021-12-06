@@ -9,6 +9,30 @@ const dbName = 'myData';
 const db =  client.db(dbName);
 const collection = db.collection('Users');
 
+let crunchyPBCounter = 0;
+let creamyPBCounter = 0;
+let appleCounter = 0;
+let androidCounter = 0;
+let StarWarsCounter = 0;
+let StarTrekCounter = 0;
+let LordOfTheRingsCounter = 0;
+let HarryPotterCounter = 0;
+const getTodaysDate = () =>{
+    let currentDate = new Date();
+    let cDay = currentDate.getDate();
+    let cMonth = currentDate.getMonth() + 1;
+    let cYear = currentDate.getFullYear();
+    let date = cMonth+"/"+cMonth+"/"+cYear;
+    console.log(date);
+    return date;
+}
+
+const saltHashPassword = (password)=>{
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+    return hash
+}
+
 exports.index = async (req, res) => {
     await client.connect();
     const findResult = await collection.find({}).toArray();
@@ -30,8 +54,7 @@ exports.create = (req, res) => {
 
 exports.createUser = async (req, res) => {
     await client.connect();
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(req.body.password, salt);
+    let hash = saltHashPassword(req.body.password);
     console.log(salt);
     console.log(hash);
     let user = {
@@ -39,6 +62,7 @@ exports.createUser = async (req, res) => {
         password: hash,
         email: req.body.email,
         age: req.body.age,
+        admin: false,
         securityQuestion1: req.body.question1,
         securityQuestion2: req.body.question2,
         securityQuestion3: req.body.question3
@@ -60,20 +84,38 @@ exports.edit = async (req, res) => {
 
 exports.editUser = async (req, res) => {
     await client.connect();
-    const updateResult = await collection.updateOne(
-        {_id: ObjectId(req.params.id)},
-        { $set: {
-            userName: req.body.userName,
-            password: req.body.password,
-            email: req.body.email,
-            age: req.body.age,
-            securityQuestion1: req.body.question1,
-            securityQuestion2: req.body.question2,
-            securityQuestion3: req.body.question3
-        }}
-    )
-    client.close();
-    res.redirect('/');
+    if(req.body.password != null){
+        let hash = saltHashPassword(req.body.password);
+        const updateResult = await collection.updateOne(
+            {_id: ObjectId(req.params.id)},
+            { $set: {
+                userName: req.body.userName,
+                password: hash,
+                email: req.body.email,
+                age: req.body.age,
+                securityQuestion1: req.body.question1,
+                securityQuestion2: req.body.question2,
+                securityQuestion3: req.body.question3
+            }}
+        )
+        client.close();
+        res.redirect('/');
+    }
+    else{
+        const updateResult = await collection.updateOne(
+            {_id: ObjectId(req.params.id)},
+            { $set: {
+                userName: req.body.userName,
+                email: req.body.email,
+                age: req.body.age,
+                securityQuestion1: req.body.question1,
+                securityQuestion2: req.body.question2,
+                securityQuestion3: req.body.question3
+            }}
+        )
+        client.close();
+        res.redirect('/');
+    }
 };
 
 exports.delete = async (req, res) => {
@@ -85,7 +127,12 @@ exports.delete = async (req, res) => {
 
 exports.details = async (req, res) => {
     await client.connect();
-    const filteredDocs = await collection.findOne({userName: req.params.id});
+    let filteredDocs;
+    console.log(req.params.id)
+    filteredDocs = await collection.findOne({userName: req.params.id});
+    if(filteredDocs == null){
+        filteredDocs = await collection.findOne({_id: ObjectId(req.params.id)});
+    }
     client.close();
     console.log(await req.cookies.LastVisit);
     res.render('details', {
@@ -97,28 +144,80 @@ exports.details = async (req, res) => {
 
 
 exports.logincheck = async (req,res)=> {
+    //Check if its empty
     let username = await req.body.userName;
     let password = await req.body.password;
     if(username == null || password==null){
         res.redirect("/login")
     }
     console.log(`${username} and ${password}`)
-
     let correctPass = false;
+
+    //Now finding user in the database
     await client.connect();
     const filteredDocs = await collection.findOne({
         userName: username
     });
     client.close();
-    if(filteredDocs==null){
+    if(filteredDocs==null){ //No user
         res.redirect("/login")
     }
-    console.log(`Filtered Docs: ${filteredDocs}`)
-    correctPass = bcrypt.compareSync(password,filteredDocs.password);
-    if (!correctPass) {
+    console.log(`Filtered Docs: ${filteredDocs.admin}`)
+    //Found a user
+    correctPass = bcrypt.compareSync(password,filteredDocs.password); //check password
+    if (!correctPass) { //Password isnt right
         console.log("Incorrect")
         res.redirect("/login");
     }
+    res.clearCookie("admin");
+    res.cookie("LastVisit",getTodaysDate(), { maxAge: 99999999999999999});
+    res.cookie("admin", filteredDocs.admin, { maxAge: 999999999});
+    //SESSION OBJECT
+    //THIS OBJECT IS ACCESSABLE ANYWHERE ON THE DOMAIN
+    req.session.user = {
+        isAuthenticated: true,
+        username: req.body.username
+    }
+    
     console.log(`Correct: ${username} and ${password}`)
     res.redirect(`details/${username}`)
+}
+
+exports.api = async(req, res) => {
+    await client.connect();
+    const findResult = await collection.find({}).toArray();
+    client.close();
+    console.log(findResult);
+    if(req.query.amount != undefined){
+        console.log(json(findResult));
+        res.json(findResult);
+    }
+    if(req.query.amount == undefined){
+        res.json(findResult);
+    } else{
+        res.json(findResult[req.query._id]);
+    }
+}
+
+exports.makeAdmin = async(req,res)=>{
+    await client.connect();
+    const updateResult = await collection.updateOne(
+        {_id: ObjectId(req.params.id)},
+        { $set: {
+            "admin": true
+        }}
+    )
+    client.close();
+    res.redirect('/');
+}
+exports.removeAdmin = async(req,res)=>{
+    await client.connect();
+    const updateResult = await collection.updateOne(
+        {_id: ObjectId(req.params.id)},
+        { $set: {
+            "admin": false
+        }}
+    )
+    client.close();
+    res.redirect('/');
 }
