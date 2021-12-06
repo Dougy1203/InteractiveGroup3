@@ -55,7 +55,6 @@ exports.create = (req, res) => {
 exports.createUser = async (req, res) => {
     await client.connect();
     let hash = saltHashPassword(req.body.password);
-    console.log(salt);
     console.log(hash);
     let user = {
         userName: req.body.userName,
