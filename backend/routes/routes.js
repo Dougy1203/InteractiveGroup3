@@ -22,7 +22,7 @@ const getTodaysDate = () =>{
     let cDay = currentDate.getDate();
     let cMonth = currentDate.getMonth() + 1;
     let cYear = currentDate.getFullYear();
-    let date = cMonth+"/"+cMonth+"/"+cYear;
+    let date = cMonth+"/"+cDay+"/"+cYear;
     console.log(date);
     return date;
 }
