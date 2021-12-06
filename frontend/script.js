@@ -7,14 +7,22 @@ const ctx = canvas.getContext('2d');
 let beginAngle = 0;
 let endAngle = 0;
 let offset = 10;
-let offsetX;
-let offsetY;
-let medianAngle;
+
+let pbCrunchyAngle = 1;
+let pbCreamyAngle = 1;
+
+let phoneAppleAngle = 1;
+let phoneAndroidAngle = 1;
+
+let moviesStarWarsAngle = 0.5;
+let moviesStarTrekAngle = 0.5;
+let moviesHarryPotterAngle = 0.5;
+let moviesLordOfTheRingsAngle = 0.5;
 
 canvas.width = 1000;
 canvas.height = 600;
 
-let pbAngles = [Math.PI * 1, Math.PI * 1];
+let pbAngles = [Math.PI * pbCreamyAngle, Math.PI * pbCrunchyAngle];
 let pbColors = ['#FF0017', '#04FF00'];
 
 function drawPBChart () {
@@ -42,7 +50,7 @@ const drawPBNames = () => {
   ctx.fillText('Creamy PB', 150, 350);
 }
 
-let phoneAngles = [Math.PI * 1, Math.PI * 1];
+let phoneAngles = [Math.PI * phoneAndroidAngle, Math.PI * phoneAppleAngle];
 let phoneColors = ['#0032FF', '#FBFF00'];
 
 function drawPhoneChart () {
@@ -70,7 +78,7 @@ const drawPhoneNames = () => {
   ctx.fillText('Android', 725, 350);
 };
 
-let movieAngles = [Math.PI * 0.5, Math.PI * 0.5, Math.PI * 0.5, Math.PI * 0.5];
+let movieAngles = [Math.PI * moviesLordOfTheRingsAngle, Math.PI * moviesHarryPotterAngle, Math.PI * moviesStarWarsAngle, Math.PI * moviesStarTrekAngle];
 let movieColors = ['#0032FF', '#FBFF00', '#FF0017', '#04FF00'];
 
 function drawMoviesChart () {
@@ -80,9 +88,9 @@ function drawMoviesChart () {
         endAngle = endAngle + movieAngles[i];
         ctx.beginPath();
         ctx.fillStyle = movieColors[i % movieColors.length];
-        ctx.moveTo(475, 400);
-        ctx.arc(475, 400, 120, beginAngle, endAngle);
-        ctx.lineTo(475, 400);
+        ctx.moveTo(475, 430);
+        ctx.arc(475, 430, 120, beginAngle, endAngle);
+        ctx.lineTo(475, 430);
         ctx.stroke();
         ctx.fill();
       };
@@ -91,11 +99,19 @@ function drawMoviesChart () {
 const drawMovieNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Star Wars', 275, 350);
+  ctx.fillText('Star Wars', 275, 380);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Star Trek', 590, 350);
+  ctx.fillText('Star Trek', 590, 380);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '20px Arial';
+  ctx.fillText('Harry Potter', 275, 530);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '20px Arial';
+  ctx.fillText('Lord of the Rings', 570, 530);
 };
 
 drawPBChart();
