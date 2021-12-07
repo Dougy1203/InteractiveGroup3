@@ -43,11 +43,15 @@ function drawPBChart () {
 const drawPBNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Crunchy PB', 150, 75);
+  ctx.fillText('Favorite Peanut Butter:', 100, 60);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Creamy PB', 150, 350);
+  ctx.fillText('Crunchy PB', 800, 350);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '20px Arial';
+  ctx.fillText('Creamy PB', 800, 380);
 }
 
 let phoneAngles = [Math.PI * phoneAndroidAngle, Math.PI * phoneAppleAngle];
@@ -71,11 +75,15 @@ function drawPhoneChart () {
 const drawPhoneNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Apple', 725, 75);
+  ctx.fillText('Apple Or Android:', 675, 60);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Android', 725, 350);
+  ctx.fillText('Apple', 800, 410);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '20px Arial';
+  ctx.fillText('Android', 800, 440);
 };
 
 let movieAngles = [Math.PI * moviesLordOfTheRingsAngle, Math.PI * moviesHarryPotterAngle, Math.PI * moviesStarWarsAngle, Math.PI * moviesStarTrekAngle];
@@ -99,19 +107,23 @@ function drawMoviesChart () {
 const drawMovieNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Star Wars', 275, 380);
+  ctx.fillText('Favorite Movie Series:', 375, 300);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Star Trek', 590, 380);
+  ctx.fillText('Star Wars', 800, 470);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Harry Potter', 275, 530);
+  ctx.fillText('Star Trek', 800, 500);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
-  ctx.fillText('Lord of the Rings', 570, 530);
+  ctx.fillText('Harry Potter', 800, 530);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '20px Arial';
+  ctx.fillText('Lord of the Rings', 800, 560);
 };
 
 drawPBChart();
