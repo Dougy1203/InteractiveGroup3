@@ -8,14 +8,15 @@ let beginAngle = 0;
 let endAngle = 0;
 let offset = 10;
 
-let crunchyPBCounter = 0;
-let creamyPBCounter = 0;
-let appleCounter = 0;
-let androidCounter = 0;
-let StarWarsCounter = 0;
-let StarTrekCounter = 0;
-let LordOfTheRingsCounter = 0;
-let HarryPotterCounter = 0;
+let crunchyPBCounter;
+let creamyPBCounter;
+let appleCounter;
+let androidCounter;
+let StarWarsCounter;
+let StarTrekCounter;
+let LordOfTheRingsCounter;
+let HarryPotterCounter;
+let PBValue, TechValue, MovieValue;
 
 let pbCrunchyAngle = 1;
 let pbCreamyAngle = 1;
@@ -23,31 +24,13 @@ let pbCreamyAngle = 1;
 let phoneAppleAngle = 1;
 let phoneAndroidAngle = 1;
 
-let moviesStarWarsAngle = 0.5;
-let moviesStarTrekAngle = 0.5;
-let moviesHarryPotterAngle = 0.5;
-let moviesLordOfTheRingsAngle = 0.5;
+let moviesStarWarsAngle;
+let moviesStarTrekAngle;
+let moviesHarryPotterAngle;
+let moviesLordOfTheRingsAngle;
 
 canvas.width = 1000;
 canvas.height = 600;
-
-let pbAngles = [Math.PI * pbCreamyAngle, Math.PI * pbCrunchyAngle];
-let pbColors = ['#FF0017', '#04FF00'];
-
-function drawPBChart () {
-  drawPBNames();
-    for(let i = 0; i < pbAngles.length; i++) {
-        beginAngle = endAngle;
-        endAngle = endAngle + pbAngles[i];
-        ctx.beginPath();
-        ctx.fillStyle = pbColors[i % pbColors.length];
-        ctx.moveTo(200, 200);
-        ctx.arc(200, 200, 120, beginAngle, endAngle);
-        ctx.lineTo(200, 200);
-        ctx.stroke();
-        ctx.fill();
-      };
-};
 
 const drawPBNames = () => {
   ctx.fillStyle = '#000';
@@ -63,19 +46,18 @@ const drawPBNames = () => {
   ctx.fillText('Creamy PB', 800, 380);
 }
 
-let phoneAngles = [Math.PI * phoneAndroidAngle, Math.PI * phoneAppleAngle];
-let phoneColors = ['#0032FF', '#FBFF00'];
-
-function drawPhoneChart () {
-  drawPhoneNames();
-    for(let i = 0; i < phoneAngles.length; i++) {
+function drawPBChart () {
+  let pbAngles = [Math.PI * pbCreamyAngle, Math.PI * pbCrunchyAngle];
+  let pbColors = ['#FF0017', '#04FF00'];
+  drawPBNames();
+    for(let i = 0; i < pbAngles.length; i++) {
         beginAngle = endAngle;
-        endAngle = endAngle + phoneAngles[i];
+        endAngle = endAngle + pbAngles[i];
         ctx.beginPath();
-        ctx.fillStyle = phoneColors[i % phoneColors.length];
-        ctx.moveTo(750, 200);
-        ctx.arc(750, 200, 120, beginAngle, endAngle);
-        ctx.lineTo(750, 200);
+        ctx.fillStyle = pbColors[i % pbColors.length];
+        ctx.moveTo(200, 200);
+        ctx.arc(200, 200, 120, beginAngle, endAngle);
+        ctx.lineTo(200, 200);
         ctx.stroke();
         ctx.fill();
       };
@@ -95,19 +77,18 @@ const drawPhoneNames = () => {
   ctx.fillText('Android', 800, 440);
 };
 
-let movieAngles = [Math.PI * moviesLordOfTheRingsAngle, Math.PI * moviesHarryPotterAngle, Math.PI * moviesStarWarsAngle, Math.PI * moviesStarTrekAngle];
-let movieColors = ['#0032FF', '#FBFF00', '#FF0017', '#04FF00'];
-
-function drawMoviesChart () {
-  drawMovieNames();
-    for(let i = 0; i < movieAngles.length; i++) {
+function drawPhoneChart () {
+  let phoneAngles = [Math.PI * phoneAndroidAngle, Math.PI * phoneAppleAngle];
+  let phoneColors = ['#0032FF', '#FBFF00'];
+  drawPhoneNames();
+    for(let i = 0; i < phoneAngles.length; i++) {
         beginAngle = endAngle;
-        endAngle = endAngle + movieAngles[i];
+        endAngle = endAngle + phoneAngles[i];
         ctx.beginPath();
-        ctx.fillStyle = movieColors[i % movieColors.length];
-        ctx.moveTo(475, 430);
-        ctx.arc(475, 430, 120, beginAngle, endAngle);
-        ctx.lineTo(475, 430);
+        ctx.fillStyle = phoneColors[i % phoneColors.length];
+        ctx.moveTo(750, 200);
+        ctx.arc(750, 200, 120, beginAngle, endAngle);
+        ctx.lineTo(750, 200);
         ctx.stroke();
         ctx.fill();
       };
@@ -135,9 +116,22 @@ const drawMovieNames = () => {
   ctx.fillText('Lord of the Rings', 800, 560);
 };
 
-drawPBChart();
-drawPhoneChart();
-drawMoviesChart();
+function drawMoviesChart () {
+  let movieAngles = [Math.PI * moviesLordOfTheRingsAngle, Math.PI * moviesHarryPotterAngle, Math.PI * moviesStarWarsAngle, Math.PI * moviesStarTrekAngle];
+  let movieColors = ['#0032FF', '#FBFF00', '#FF0017', '#04FF00'];
+  drawMovieNames();
+    for(let i = 0; i < movieAngles.length; i++) {
+        beginAngle = endAngle;
+        endAngle = endAngle + movieAngles[i];
+        ctx.beginPath();
+        ctx.fillStyle = movieColors[i % movieColors.length];
+        ctx.moveTo(475, 430);
+        ctx.arc(475, 430, 120, beginAngle, endAngle);
+        ctx.lineTo(475, 430);
+        ctx.stroke();
+        ctx.fill();
+      };
+};
 
 function search(){
   let queryCategory = document.querySelector
@@ -156,18 +150,25 @@ let fetchData = async (url) => {
   HarryPotterCounter = data.HarryPotter;
   LordOfTheRingsCounter = data.LordOfTheRings;
 
-  result.innerHTML = data;
+  PBValue = crunchyPBCounter + creamyPBCounter;
+  TechValue = appleCounter + androidCounter;
+  MovieValue = StarTrekCounter + StarWarsCounter + HarryPotterCounter + LordOfTheRingsCounter;
 
-  // for(let i=0;i<data.length;i++){
-  //   result.innerHTML = result.innerHTML + `<div>
-  //   Question 1: Crunchy or Creamy Peanut Butter </br>
-  //   User Answer: ${data[i].securityQuestion1} </br>
-  //   Question 2: Apple or Android? </br>
-  //   User Answer: ${data[i].securityQuestion2} </br>
-  //   Question 3: Best Movie Franchise? </br>
-  //   User Answer: ${data[i].securityQuestion3} </br>
-  //   </div></br></br>`;
-  // }
+  result.innerHTML = data;
 };
 
-fetchData('http://localhost:3000/api');
+fetchData('http://localhost:3000/api').then( data => {
+  pbCrunchyAngle = crunchyPBCounter / PBValue * 2;
+  pbCreamyAngle = creamyPBCounter / PBValue * 2;
+  phoneAppleAngle = appleCounter / TechValue * 2;
+  phoneAndroidAngle = androidCounter / TechValue * 2;
+  moviesHarryPotterAngle = HarryPotterCounter / MovieValue * 2;
+  moviesStarTrekAngle = StarTrekCounter / MovieValue * 2;
+  moviesStarWarsAngle = StarWarsCounter / MovieValue * 2;
+  moviesLordOfTheRingsAngle = LordOfTheRingsCounter / MovieValue * 2;
+
+
+  drawPBChart();
+  drawPhoneChart();
+  drawMoviesChart();
+});
