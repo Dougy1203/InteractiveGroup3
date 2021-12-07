@@ -8,6 +8,15 @@ let beginAngle = 0;
 let endAngle = 0;
 let offset = 10;
 
+let crunchyPBCounter = 0;
+let creamyPBCounter = 0;
+let appleCounter = 0;
+let androidCounter = 0;
+let StarWarsCounter = 0;
+let StarTrekCounter = 0;
+let LordOfTheRingsCounter = 0;
+let HarryPotterCounter = 0;
+
 let pbCrunchyAngle = 1;
 let pbCreamyAngle = 1;
 
@@ -138,24 +147,27 @@ let fetchData = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
   console.log(data);
-  result.innerHTML = "";
+  crunchyPBCounter = data.CrunchyPB;
+  creamyPBCounter = data.CreamyPB;
+  appleCounter = data.Apple;
+  androidCounter = data.Android;
+  StarWarsCounter = data.StarWars;
+  StarTrekCounter = data.StarTrek;
+  HarryPotterCounter = data.HarryPotter;
+  LordOfTheRingsCounter = data.LordOfTheRings;
 
-  for(let i=0;i<data.length;i++){
-    result.innerHTML = result.innerHTML + `<div>
-    Question 1: Crunchy or Creamy Peanut Butter </br>
-    User Answer: ${data[i].securityQuestion1} </br>
-    Question 2: Apple or Android? </br>
-    User Answer: ${data[i].securityQuestion2} </br>
-    Question 3: Best Movie Franchise? </br>
-    User Answer: ${data[i].securityQuestion3} </br>
-    </div></br></br>`;
-  }
+  result.innerHTML = data;
+
+  // for(let i=0;i<data.length;i++){
+  //   result.innerHTML = result.innerHTML + `<div>
+  //   Question 1: Crunchy or Creamy Peanut Butter </br>
+  //   User Answer: ${data[i].securityQuestion1} </br>
+  //   Question 2: Apple or Android? </br>
+  //   User Answer: ${data[i].securityQuestion2} </br>
+  //   Question 3: Best Movie Franchise? </br>
+  //   User Answer: ${data[i].securityQuestion3} </br>
+  //   </div></br></br>`;
+  // }
 };
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 fetchData('http://localhost:3000/api');
-
