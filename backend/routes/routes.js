@@ -189,8 +189,8 @@ exports.api = async(req, res) => {
     androidCounter = 0;
     StarWarsCounter = 0;
     StarTrekCounter = 0;
-    HarryPotterCount = 0;
-    LordOfTheRingsCo = 0;
+    HarryPotterCounter = 0;
+    LordOfTheRingsCounter = 0;
     await client.connect();
     const findResult = await collection.find({}).toArray();
     client.close();

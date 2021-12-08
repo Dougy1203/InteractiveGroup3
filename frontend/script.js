@@ -40,15 +40,23 @@ const drawPBNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Crunchy PB', 800, 350);
+  ctx.fillText(crunchyPBCounter, 975, 350);
+
+  ctx.fillStyle = '#002500'
+  ctx.fillRect(730, 335, 60, 20);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Creamy PB', 800, 380);
+  ctx.fillText(creamyPBCounter, 975, 380);
+
+  ctx.fillStyle = '#8B9D83'
+  ctx.fillRect(730, 365, 60, 20);
 }
 
 function drawPBChart () {
   let pbAngles = [Math.PI * pbCreamyAngle, Math.PI * pbCrunchyAngle];
-  let pbColors = ['#FF0017', '#04FF00'];
+  let pbColors = ['#8B9D83', '#002500'];
   drawPBNames();
     for(let i = 0; i < pbAngles.length; i++) {
         beginAngle = endAngle;
@@ -71,15 +79,23 @@ const drawPhoneNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Apple', 800, 410);
+  ctx.fillText(appleCounter, 975, 410);
+
+  ctx.fillStyle = '#6A7B76'
+  ctx.fillRect(730, 395, 60, 20);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Android', 800, 440);
+  ctx.fillText(androidCounter, 975, 440);
+
+  ctx.fillStyle = '#65334D'
+  ctx.fillRect(730, 425, 60, 20);
 };
 
 function drawPhoneChart () {
   let phoneAngles = [Math.PI * phoneAndroidAngle, Math.PI * phoneAppleAngle];
-  let phoneColors = ['#0032FF', '#FBFF00'];
+  let phoneColors = ['#65334D', '#6A7B76'];
   drawPhoneNames();
     for(let i = 0; i < phoneAngles.length; i++) {
         beginAngle = endAngle;
@@ -102,23 +118,39 @@ const drawMovieNames = () => {
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Star Wars', 800, 470);
+  ctx.fillText(StarWarsCounter, 975, 470);
+
+  ctx.fillStyle = '#FFE81F';
+  ctx.fillRect(730, 455, 60, 20);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Star Trek', 800, 500);
+  ctx.fillText(StarTrekCounter, 975, 500);
+
+  ctx.fillStyle = '#114B5F';
+  ctx.fillRect(730, 485, 60, 20);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Harry Potter', 800, 530);
+  ctx.fillText(HarryPotterCounter, 975, 530);
+
+  ctx.fillStyle = '#6B2737';
+  ctx.fillRect(730, 515, 60, 20);
 
   ctx.fillStyle = '#000';
   ctx.font = '20px Arial';
   ctx.fillText('Lord of the Rings', 800, 560);
+  ctx.fillText(LordOfTheRingsCounter, 975, 560);
+
+  ctx.fillStyle = '#456990';
+  ctx.fillRect(730, 545, 60, 20);
 };
 
 function drawMoviesChart () {
   let movieAngles = [Math.PI * moviesLordOfTheRingsAngle, Math.PI * moviesHarryPotterAngle, Math.PI * moviesStarWarsAngle, Math.PI * moviesStarTrekAngle];
-  let movieColors = ['#0032FF', '#FBFF00', '#FF0017', '#04FF00'];
+  let movieColors = ['#456990', '#6B2737', '#FFE81F', '#114B5F'];
   drawMovieNames();
     for(let i = 0; i < movieAngles.length; i++) {
         beginAngle = endAngle;
@@ -154,10 +186,6 @@ let fetchData = async (url) => {
   TechValue = appleCounter + androidCounter;
   MovieValue = StarTrekCounter + StarWarsCounter + HarryPotterCounter + LordOfTheRingsCounter;
 
-  result.innerHTML = data;
-};
-
-fetchData('http://localhost:3000/api').then( data => {
   pbCrunchyAngle = crunchyPBCounter / PBValue * 2;
   pbCreamyAngle = creamyPBCounter / PBValue * 2;
   phoneAppleAngle = appleCounter / TechValue * 2;
@@ -167,8 +195,16 @@ fetchData('http://localhost:3000/api').then( data => {
   moviesStarWarsAngle = StarWarsCounter / MovieValue * 2;
   moviesLordOfTheRingsAngle = LordOfTheRingsCounter / MovieValue * 2;
 
-
   drawPBChart();
   drawPhoneChart();
   drawMoviesChart();
-});
+
+};
+
+const loop = () => {
+  fetchData('http://localhost:3000/api');
+}
+
+loop();
+setInterval(loop,3000);
+

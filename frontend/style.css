@@ -1,5 +1,5 @@
 canvas {
-    background-color: aqua;
+    background-color: #902923;
     padding: 0;
     margin: auto;
     display: block;
@@ -13,4 +13,8 @@ canvas {
 #title {
     text-align: center;
     font-size: 200%;
+}
+
+body{
+    background-color: #902923;
 }
