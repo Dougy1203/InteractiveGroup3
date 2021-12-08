@@ -195,6 +195,7 @@ let fetchData = async (url) => {
   moviesStarWarsAngle = StarWarsCounter / MovieValue * 2;
   moviesLordOfTheRingsAngle = LordOfTheRingsCounter / MovieValue * 2;
 
+  ctx.clearRect(970, 310, 1000, 600);
   drawPBChart();
   drawPhoneChart();
   drawMoviesChart();
